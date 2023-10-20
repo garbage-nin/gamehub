@@ -1,0 +1,42 @@
+<mat-card class="example-card w-96">
+  <mat-card-header class="!p-0">
+    <mat-toolbar [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      >Tic-tac-toe</mat-toolbar
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <div class="flex flex-row justify-between py-2">
+      <div class="">
+        <span class="fond-bold mr-1">Player O:</span>
+        <span>{{ playerOScore }}</span>
+      </div>
+      <div class="">
+        <span class="fond-bold mr-1">Player X:</span>
+        <span>{{ playerXScore }}</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="text-center py-2 font-extrabold">
+      Player {{ playerTurn }} Turn!!!
+    </div>
+    <div class="grid grid-cols-3 px-12 py-2">
+      <ng-container *ngFor="let square of squares">
+        <div class="w-full hover:border border-black p-1 rounded-lg">
+          <button
+            mat-raised-button
+            [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+            (click)="placeValue(square)"
+            class="!h-20 w-full"
+            [disabled]="winner !== ''"
+          >
+            {{ square.value }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>

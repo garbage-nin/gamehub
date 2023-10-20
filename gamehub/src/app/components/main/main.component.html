@@ -1,0 +1,29 @@
+<app-navigation
+  (lightTheme)="lightTheme = $event"
+  (openSideNav)="opened = $event"
+></app-navigation>
+<mat-sidenav-container
+  [ngClass]="{ 'theme-alternate': lightTheme }"
+  class="h-full"
+>
+  <mat-sidenav
+    #sidenav
+    mode="push"
+    color="accent"
+    [(opened)]="opened"
+    position="end"
+    autoFocus="false"
+  >
+    Sidenav content
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="flex flex-wrap p-5">
+      <div class="w-1/5"></div>
+      <div class="w-3/5 flex justify-center">
+        <app-tictac></app-tictac>
+      </div>
+      <div class="w-1/5"></div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
