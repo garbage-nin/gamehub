@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 interface Square {
   value: string | null;
@@ -11,6 +11,8 @@ interface Square {
   styleUrls: ['./tictac.component.scss'],
 })
 export class TictacComponent {
+  @Output() close = new EventEmitter<boolean>();
+
   squares: Square[] = [
     { value: null, id: 1 },
     { value: null, id: 2 },
@@ -27,12 +29,26 @@ export class TictacComponent {
   playerOScore: number = 0;
 
   playerTurn: string = 'O';
+  turn = 0;
+  disableResetButton = true;
+  disableScoreButton = true;
   winner: string = '';
 
   placeValue(square: Square) {
     if (square.value === null) {
       square.value = this.playerTurn;
-      this.checkWinner();
+      this.turn++;
+
+      if (this.turn >= 5) {
+        this.checkWinner();
+      }
+
+      if (this.turn === 9 && this.winner === '') {
+        this.winner = 'Tie Game!';
+        this.disableResetButton = false;
+      }
+
+      this.playerTurn = this.playerTurn === 'X' ? 'O' : 'X';
     }
   }
 
@@ -54,11 +70,17 @@ export class TictacComponent {
 
     winningCombos.forEach((combo) => {
       if (combo.every((num) => x.includes(num))) {
-        this.winner = 'Player ' + this.playerTurn + ' wins!';
+        this.winner = 'Player ' + this.playerTurn + ' wins!!!';
         this.playerTurn === 'X' ? this.playerXScore++ : this.playerOScore++;
+        this.disableResetButton = false;
       }
     });
+  }
 
-    this.playerTurn = this.playerTurn === 'X' ? 'O' : 'X';
+  resetGame() {
+    this.squares.forEach((square) => (square.value = null));
+    this.winner = '';
+    this.turn = 0;
+    this.disableResetButton = true;
   }
 }
