@@ -33,7 +33,7 @@
           mat-raised-button
           color="primary"
           class="!rounded-lg !py-6 w-2/12 !text-xl !text-white"
-          (click)="initializeMemoryGame(12)"
+          (click)="initializeMemoryGame(9)"
         >
           Easy
         </button>
@@ -43,7 +43,7 @@
           mat-raised-button
           color="accent"
           class="!rounded-lg !py-6 w-2/12 !text-xl"
-          (click)="initializeMemoryGame(15)"
+          (click)="initializeMemoryGame(12)"
         >
           Medium
         </button>
@@ -53,7 +53,7 @@
           mat-raised-button
           color="warn"
           class="!rounded-lg !py-6 w-2/12 !text-xl"
-          (click)="initializeMemoryGame(30)"
+          (click)="initializeMemoryGame(15)"
         >
           Hard
         </button>
@@ -62,15 +62,36 @@
 
     <div *ngIf="initializeGame">
       <div class="text-center">
-        <div class="grid grid-cols-6 gap-1">
-          <ng-container *ngFor="let icon of selectedIconList">
+        <div>
+          <span
+            class="px-2 mr-1"
+            [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
+          ></span>
+          Player {{ playerTurn }} Turn!!!
+        </div>
+        <div class="py-2">
+          {{ playerActions.moves }} more card to open and matched
+        </div>
+
+        <div
+          class="grid grid-cols-6 gap-1"
+          [ngClass]="disableClickIcons ? 'pointer-events-none' : ''"
+        >
+          <ng-container *ngFor="let icon of selectedIconList; let i = index">
             <div
               class="text-center py-2 rounded-lg cursor-pointer"
-              [ngClass]="playerTurn ? 'primary-bg' : 'accent-bg'"
+              [ngClass]="{
+                'hide-card': icon.matched === true,
+                'primary-bg': playerTurn === 'O',
+                'accent-bg': playerTurn === 'X',
+              }"
+              (click)="selectIcon(icon, i)"
             >
-              <mat-icon class="!h-auto !w-auto !text-4xl">{{
-                icon.icon
-              }}</mat-icon>
+              <mat-icon
+                class="!h-auto !w-auto !text-4xl"
+                [ngClass]="icon.matched === 'viewed' ? '' : 'hide-icon'"
+                >{{ icon.icon }}</mat-icon
+              >
             </div>
           </ng-container>
         </div>

@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 interface IconList {
   icon: string;
-  matched: boolean;
+  matched: string | boolean;
 }
 
 @Component({
@@ -54,16 +54,18 @@ export class MemoryGameComponent {
     'local_pizza',
   ];
 
+  disableClickIcons: boolean = false;
+
   playerActions = {
     moves: 2,
     icon1: '',
+    index1: -1,
     icon2: '',
+    index2: -1,
   };
 
   initializeGame: boolean = false;
-  constructor() {
-    console.log(this.iconList.length);
-  }
+  constructor() {}
 
   initializeMemoryGame(count: number) {
     this.selectedCount = count;
@@ -91,16 +93,51 @@ export class MemoryGameComponent {
     console.log(this.selectedIconList);
   }
 
-  selectIcon(icon: string) {
+  selectIcon(icon: IconList, index: number) {
+    let successMatched = false;
+    if (icon.matched) {
+      return;
+    }
+
     if (this.playerActions.moves === 2) {
-      this.playerActions.icon1 = icon;
+      this.playerActions.icon1 = icon.icon;
+      icon.matched = 'viewed';
       this.playerActions.moves = 1;
-    } else if (this.playerActions.moves === 1) {
-      this.playerActions.icon2 = icon;
+      this.playerActions.index1 = index;
+    }
+
+    if (this.playerActions.moves === 1) {
+      this.playerActions.icon2 = icon.icon;
+      icon.matched = 'viewed';
       this.playerActions.moves = 0;
+      this.playerActions.index2 = index;
     }
 
     if (this.playerActions.icon1 === this.playerActions.icon2) {
+      setTimeout(() => {
+        icon.matched = true;
+        this.selectedIconList[this.playerActions.index1].matched = true;
+        this.playerTurn === 'X' ? this.playerXScore++ : this.playerOScore++;
+        successMatched = true;
+      }, 300);
+    }
+
+    if (this.playerActions.moves === 0) {
+      this.disableClickIcons = true;
+      setTimeout(() => {
+        if (!successMatched) {
+          this.selectedIconList[this.playerActions.index1].matched = false;
+          this.selectedIconList[this.playerActions.index2].matched = false;
+          this.playerTurn = this.playerTurn === 'X' ? 'O' : 'X';
+        }
+
+        this.playerActions.moves = 2;
+        this.playerActions.icon1 = '';
+        this.playerActions.icon2 = '';
+        this.playerActions.index1 = -1;
+        this.playerActions.index2 = -1;
+        this.disableClickIcons = false;
+      }, 1000);
     }
   }
   resetGame() {}
