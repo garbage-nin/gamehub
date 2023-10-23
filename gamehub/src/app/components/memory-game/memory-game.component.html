@@ -61,18 +61,28 @@
     </div>
 
     <div *ngIf="initializeGame">
-      <div class="text-center">
-        <div>
+      <div *ngIf="selectedCount === 0" class="text-center text-2xl font-bold">
+        {{ winnerMessage }}
+      </div>
+      <div
+        *ngIf="winnerMessage === ''"
+        class="text-center game-announce-container"
+      >
+        <div class="py-1">
           <span
             class="px-2 mr-1"
             [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
           ></span>
           Player {{ playerTurn }} Turn!!!
         </div>
-        <div class="py-2">
-          {{ playerActions.moves }} more card to open and matched
+        <div *ngIf="successMatched" class="py-1">
+          <span>You matched an icon, still your turn</span>
         </div>
-
+        <div class="py-1">
+          Find {{ playerActions.moves }} card of the same icon get a point!
+        </div>
+      </div>
+      <div class="text-center icon-container">
         <div
           class="grid grid-cols-6 gap-1"
           [ngClass]="disableClickIcons ? 'pointer-events-none' : ''"
@@ -103,7 +113,6 @@
       mat-raised-button
       [color]="playerTurn === 'X' ? 'primary' : 'accent'"
       (click)="resetGame()"
-      [disabled]="disableResetButton"
     >
       Reset
     </button>
