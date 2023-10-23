@@ -55,6 +55,8 @@ export class MemoryGameComponent {
   ];
 
   disableClickIcons: boolean = false;
+  successMatched: boolean = false;
+  winnerMessage: string = '';
 
   playerActions = {
     moves: 2,
@@ -70,13 +72,13 @@ export class MemoryGameComponent {
   initializeMemoryGame(count: number) {
     this.selectedCount = count;
     this.selectedIcons = [];
-
+    let newIconList = [...this.iconList];
     while (
       this.selectedIcons.length < this.selectedCount &&
-      this.iconList.length > 0
+      newIconList.length > 0
     ) {
-      let randomIndex = Math.floor(Math.random() * this.iconList.length);
-      let selectedIcon = this.iconList.splice(randomIndex, 1)[0];
+      let randomIndex = Math.floor(Math.random() * newIconList.length);
+      let selectedIcon = newIconList.splice(randomIndex, 1)[0];
       this.selectedIcons.push(selectedIcon);
     }
     this.randomizeIcons();
@@ -94,7 +96,8 @@ export class MemoryGameComponent {
   }
 
   selectIcon(icon: IconList, index: number) {
-    let successMatched = false;
+    this.successMatched = false;
+
     if (icon.matched) {
       return;
     }
@@ -104,9 +107,7 @@ export class MemoryGameComponent {
       icon.matched = 'viewed';
       this.playerActions.moves = 1;
       this.playerActions.index1 = index;
-    }
-
-    if (this.playerActions.moves === 1) {
+    } else if (this.playerActions.moves === 1) {
       this.playerActions.icon2 = icon.icon;
       icon.matched = 'viewed';
       this.playerActions.moves = 0;
@@ -114,18 +115,19 @@ export class MemoryGameComponent {
     }
 
     if (this.playerActions.icon1 === this.playerActions.icon2) {
+      this.selectedCount--;
       setTimeout(() => {
         icon.matched = true;
         this.selectedIconList[this.playerActions.index1].matched = true;
         this.playerTurn === 'X' ? this.playerXScore++ : this.playerOScore++;
-        successMatched = true;
+        this.successMatched = true;
       }, 300);
     }
 
     if (this.playerActions.moves === 0) {
       this.disableClickIcons = true;
       setTimeout(() => {
-        if (!successMatched) {
+        if (!this.successMatched) {
           this.selectedIconList[this.playerActions.index1].matched = false;
           this.selectedIconList[this.playerActions.index2].matched = false;
           this.playerTurn = this.playerTurn === 'X' ? 'O' : 'X';
@@ -139,6 +141,26 @@ export class MemoryGameComponent {
         this.disableClickIcons = false;
       }, 1000);
     }
+
+    if (this.selectedCount === 0) {
+      this.winner = this.playerXScore > this.playerOScore ? 'X' : 'O';
+      this.winnerMessage = `Player ${this.winner} wins the round!`;
+    }
   }
-  resetGame() {}
+
+  resetGame() {
+    this.playerActions = {
+      moves: 2,
+      icon1: '',
+      index1: -1,
+      icon2: '',
+      index2: -1,
+    };
+    this.initializeGame = false;
+    this.winner = '';
+    this.winnerMessage = '';
+    this.selectedCount = 0;
+    this.selectedIconList = [];
+    this.selectedIcons = [];
+  }
 }
