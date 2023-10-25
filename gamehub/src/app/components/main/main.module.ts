@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MainComponent } from './main.component';
 
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -32,6 +33,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatToolbarModule,
     MatCardModule,
+    FormsModule,
   ],
 })
 export class MainModule {}
