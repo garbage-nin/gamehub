@@ -4,7 +4,7 @@
       [color]="playerTurn === 'X' ? 'primary' : 'accent'"
       class="justify-between items-center"
     >
-      <div>Memory Game</div>
+      <div>Speed Typing Game</div>
       <div>
         <mat-icon class="cursor-pointer" (click)="close.emit(true)"
           >close</mat-icon
@@ -14,22 +14,41 @@
   </mat-card-header>
   <mat-card-content>
     <div class="flex flex-row justify-between py-4">
-      <div class="ml-5">
-        <span class="primary-bg px-2 mr-1"></span>
-        <span class="fond-bold mr-1">Player-O:</span>
-        <span>{{ playerOScore }}</span>
+      <div class="ml-5 flex-flex-col items-center">
+        <div>
+          <span class="primary-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-O:</span>
+          <span class="mr-1">{{ playerOScore }}</span>
+        </div>
+        <div>
+          <span>Current time: {{ playerOTime }}</span>
+        </div>
       </div>
-      <div class="timer text-xl font-bold">
+      <div class="timer text-xl font-bold flex items-center">
         {{ seconds }}:{{ milliseconds }}
       </div>
-      <div class="mr-5">
-        <span class="accent-bg px-2 mr-1"></span>
-        <span class="fond-bold mr-1">Player-X:</span>
-        <span>{{ playerXScore }}</span>
+      <div class="mr-5 flex flex-col items-center">
+        <div>
+          <span class="accent-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-X:</span>
+          <span class="mr-1">{{ playerXScore }}</span>
+        </div>
+        <div>
+          <span>Current time: {{ playerXTime }}</span>
+        </div>
       </div>
     </div>
+    <div class="py-1 text-center">
+      <span
+        class="px-2 mr-1"
+        [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
+      ></span>
+      Player {{ playerTurn }} Turn!!!
+    </div>
+
+    <div *ngIf="winner != ''" class="py-1 text-center">{{ winner }}</div>
     <mat-divider></mat-divider>
-    <div class="p-2 h-96 bg-blue-200 relative">
+    <div class="p-2 h-96 bg-blue-200 border-2 !text-black relative">
       <ng-container *ngFor="let word of wordList; let i = index">
         <div
           class="min-h-fit p-2 font-extrabold text-lg rounded-lg"
@@ -43,9 +62,10 @@
     <div class="text-center py-2">
       <button
         mat-raised-button
-        color="primary"
+        [color]="playerTurn === 'X' ? 'primary' : 'accent'"
         class="!rounded-lg !py-6 w-2/12 !text-xl !text-white"
         (click)="initializeTypingGame()"
+        [disabled]="wordList.length > 0"
       >
         Start
       </button>
@@ -53,9 +73,10 @@
       <div class="text-input py-2">
         <input
           type="text"
-          class="w-3/4 p-2 border"
+          class="w-3/4 p-2 border-2 !text-black"
           [(ngModel)]="typeWord"
           (keyup)="checkWord($event)"
+          [disabled]="wordList.length === 0"
         />
       </div>
     </div>
@@ -64,6 +85,7 @@
     <button
       mat-raised-button
       [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      [disabled]="disableResetButton"
     >
       Reset
     </button>
