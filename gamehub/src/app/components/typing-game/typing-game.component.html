@@ -72,11 +72,13 @@
 
       <div class="text-input py-2">
         <input
+          #inputType
           type="text"
           class="w-3/4 p-2 border-2 !text-black"
           [(ngModel)]="typeWord"
           (keyup)="checkWord($event)"
           [disabled]="wordList.length === 0"
+          autofocus
         />
       </div>
     </div>
