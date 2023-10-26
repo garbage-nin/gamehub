@@ -60,7 +60,7 @@ export class TypingGameComponent {
     this.startTimer();
     setTimeout(() => {
       this.inputType?.nativeElement.focus();
-    }, 10);
+    }, 1);
   }
 
   setWordList() {
