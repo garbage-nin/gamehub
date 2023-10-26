@@ -17,8 +17,11 @@ export class TypingGameComponent {
   words: string[] = [];
   playerXScore: number = 0;
   playerOScore: number = 0;
+  playerOTime: number = 0;
+  playerXTime: number = 0;
   disableResetButton = true;
   playerTurn: string = 'O';
+  winner: string = '';
 
   wordList: WordList[] = [];
   wordIndex = -1;
@@ -31,8 +34,18 @@ export class TypingGameComponent {
   seconds: number = 0;
   milliseconds: number = 0;
 
-  constructor(private wordsApiService: WordsApiService) {
-    this.words = this.wordsApiService.getWords('easy', 30);
+  constructor(private wordsApiService: WordsApiService) {}
+
+  initializeTypingGame() {
+    this.setWordList();
+    this.wordList[0].shown = true;
+    this.toggleWordVisibility();
+    this.startTimer();
+  }
+
+  setWordList() {
+    this.resetValue();
+    this.words = this.wordsApiService.getWords('easy', 1);
     this.words.forEach((word) => {
       this.wordList.push({
         word: word,
@@ -51,11 +64,6 @@ export class TypingGameComponent {
         clearInterval(this.intervalId);
       }
     }, this.showTimer);
-
-    // setInterval(() => {
-    //   this.wordList[this.wordIndex].shown = false;
-    //   this.wordIndex++;
-    // }, this.hideTimer); // Repeat every 5 seconds
   }
 
   randomPosition(): any {
@@ -67,13 +75,6 @@ export class TypingGameComponent {
       top: `${top}%`,
       left: `${left}%`,
     };
-  }
-
-  initializeTypingGame() {
-    this.wordList[0].shown = true;
-    this.wordIndex = 0;
-    this.toggleWordVisibility();
-    this.startTimer();
   }
 
   startTimer() {
@@ -105,9 +106,53 @@ export class TypingGameComponent {
 
         if (this.wordsMatched === this.wordList.length) {
           clearInterval(this.timerId);
-          this.disableResetButton = false;
+          this.setScore();
+          this.wordList = [];
         }
       }
     });
+  }
+
+  setScore() {
+    let totalTime = this.seconds + this.milliseconds / 1000;
+    if (this.playerTurn === 'O') {
+      this.playerOTime = totalTime;
+      this.playerTurn = 'X';
+    } else {
+      this.playerXTime = totalTime;
+      this.playerTurn = 'O';
+    }
+
+    if (this.playerOTime !== 0 && this.playerXTime !== 0) {
+      if (this.playerOTime < this.playerXTime) {
+        this.playerOScore++;
+        this.winner = `Player O win this round with a time of ${this.playerOTime} seconds vs Player X time ${this.playerXTime} seconds`;
+      } else {
+        this.playerXScore++;
+        this.winner = `Player X win this round with a time of ${this.playerXTime} seconds vs Player O time ${this.playerOTime} seconds`;
+      }
+      this.disableResetButton = false;
+      this.playerOTime = 0;
+      this.playerXTime = 0;
+    }
+  }
+
+  resetGame() {
+    this.disableResetButton = true;
+    this.playerOTime = 0;
+    this.playerXTime = 0;
+    this.playerTurn = 'O';
+    this.winner = '';
+    this.wordList = [];
+  }
+
+  resetValue() {
+    this.typeWord = '';
+    this.wordsMatched = 0;
+    this.wordList = [];
+    this.winner = '';
+    this.milliseconds = 0;
+    this.seconds = 0;
+    this.wordIndex = 0;
   }
 }
