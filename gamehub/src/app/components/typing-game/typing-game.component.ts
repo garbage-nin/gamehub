@@ -1,4 +1,11 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { WordsApiService } from 'src/app/service/words-api.service';
 
 interface WordList {
@@ -34,13 +41,26 @@ export class TypingGameComponent {
   seconds: number = 0;
   milliseconds: number = 0;
 
+  @ViewChild('inputType') inputType: ElementRef | undefined;
+
   constructor(private wordsApiService: WordsApiService) {}
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterkey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.initializeTypingGame();
+      event.preventDefault();
+    }
+  }
 
   initializeTypingGame() {
     this.setWordList();
     this.wordList[0].shown = true;
     this.toggleWordVisibility();
     this.startTimer();
+    setTimeout(() => {
+      this.inputType?.nativeElement.focus();
+    }, 10);
   }
 
   setWordList() {
@@ -150,6 +170,7 @@ export class TypingGameComponent {
     this.typeWord = '';
     this.wordsMatched = 0;
     this.wordList = [];
+    this.words = [];
     this.winner = '';
     this.milliseconds = 0;
     this.seconds = 0;
