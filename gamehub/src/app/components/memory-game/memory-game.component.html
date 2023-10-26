@@ -1,0 +1,120 @@
+<mat-card class="example-card">
+  <mat-card-header class="!p-0">
+    <mat-toolbar
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      class="justify-between items-center"
+    >
+      <div>Memory Game</div>
+      <div>
+        <mat-icon class="cursor-pointer" (click)="close.emit(true)"
+          >close</mat-icon
+        >
+      </div>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="flex flex-row justify-between py-4">
+      <div class="ml-5">
+        <span class="primary-bg px-2 mr-1"></span>
+        <span class="fond-bold mr-1">Player-O:</span>
+        <span>{{ playerOScore }}</span>
+      </div>
+      <div class="mr-5">
+        <span class="accent-bg px-2 mr-1"></span>
+        <span class="fond-bold mr-1">Player-X:</span>
+        <span>{{ playerXScore }}</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="!initializeGame" class="flex flex-col space-y-2 py-2">
+      <div class="font-bold text-2xl">Choose difficulty:</div>
+      <div class="text-center">
+        <button
+          mat-raised-button
+          color="primary"
+          class="!rounded-lg !py-6 w-2/12 !text-xl !text-white"
+          (click)="initializeMemoryGame(9)"
+        >
+          Easy
+        </button>
+      </div>
+      <div class="text-center">
+        <button
+          mat-raised-button
+          color="accent"
+          class="!rounded-lg !py-6 w-2/12 !text-xl"
+          (click)="initializeMemoryGame(12)"
+        >
+          Medium
+        </button>
+      </div>
+      <div class="text-center">
+        <button
+          mat-raised-button
+          color="warn"
+          class="!rounded-lg !py-6 w-2/12 !text-xl"
+          (click)="initializeMemoryGame(15)"
+        >
+          Hard
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="initializeGame">
+      <div *ngIf="selectedCount === 0" class="text-center text-2xl font-bold">
+        {{ winnerMessage }}
+      </div>
+      <div
+        *ngIf="winnerMessage === ''"
+        class="text-center game-announce-container"
+      >
+        <div class="py-1">
+          <span
+            class="px-2 mr-1"
+            [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
+          ></span>
+          Player {{ playerTurn }} Turn!!!
+        </div>
+        <div *ngIf="successMatched" class="py-1">
+          <span>You matched an icon, still your turn</span>
+        </div>
+        <div class="py-1">
+          Find {{ playerActions.moves }} card of the same icon get a point!
+        </div>
+      </div>
+      <div class="text-center icon-container">
+        <div
+          class="grid grid-cols-6 gap-1"
+          [ngClass]="disableClickIcons ? 'pointer-events-none' : ''"
+        >
+          <ng-container *ngFor="let icon of selectedIconList; let i = index">
+            <div
+              class="text-center py-2 rounded-lg cursor-pointer"
+              [ngClass]="{
+                'hide-card': icon.matched === true,
+                'primary-bg': playerTurn === 'O',
+                'accent-bg': playerTurn === 'X',
+              }"
+              (click)="selectIcon(icon, i)"
+            >
+              <mat-icon
+                class="!h-auto !w-auto !text-4xl"
+                [ngClass]="icon.matched === 'viewed' ? '' : 'hide-icon'"
+                >{{ icon.icon }}</mat-icon
+              >
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="!justify-end">
+    <button
+      mat-raised-button
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      (click)="resetGame()"
+    >
+      Reset
+    </button>
+  </mat-card-actions>
+</mat-card>

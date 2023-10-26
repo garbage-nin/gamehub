@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MainComponent } from './main.component';
+
 import { NavigationComponent } from '../navigation/navigation.component';
 import { TictacComponent } from '../tictac/tictac.component';
+import { MemoryGameComponent } from '../memory-game/memory-game.component';
+import { TypingGameComponent } from '../typing-game/typing-game.component';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,7 +17,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [MainComponent, NavigationComponent, TictacComponent],
+  declarations: [
+    MainComponent,
+    NavigationComponent,
+    TictacComponent,
+    MemoryGameComponent,
+    TypingGameComponent,
+  ],
   imports: [
     CommonModule,
     MainRoutingModule,
@@ -23,6 +33,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatToolbarModule,
     MatCardModule,
+    FormsModule,
   ],
 })
 export class MainModule {}
