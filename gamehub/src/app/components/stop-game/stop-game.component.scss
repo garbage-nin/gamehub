@@ -1,0 +1,23 @@
+@keyframes moveHorizontal {
+  0% {
+    left: 0%; /* Start position (0% of the container's width) */
+  }
+  50% {
+    left: 96%; /* Middle position (100% of the container's width) */
+  }
+  100% {
+    left: 0%; /* End position (0% of the container's width) */
+  }
+}
+
+.easy-mode {
+  animation: moveHorizontal 5s linear infinite; /* Adjust the duration to control the speed */
+}
+
+.medium-mode {
+  animation: moveHorizontal 3s linear infinite; /* Adjust the duration to control the speed */
+}
+
+.hard-mode {
+  animation: moveHorizontal 1.5s linear infinite; /* Adjust the duration to control the speed */
+}
