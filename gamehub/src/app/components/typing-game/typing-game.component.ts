@@ -21,6 +21,7 @@ interface WordList {
 })
 export class TypingGameComponent {
   @Output() close = new EventEmitter<boolean>();
+  wordCount = 10;
   words: string[] = [];
   playerXScore: number = 0;
   playerOScore: number = 0;
@@ -37,6 +38,7 @@ export class TypingGameComponent {
   showTimer = 1000; // 4 seconds
   typeWord: string = '';
   wordsMatched: number = 0;
+  roundStarted = false;
 
   seconds: number = 0;
   milliseconds: number = 0;
@@ -54,6 +56,10 @@ export class TypingGameComponent {
   }
 
   initializeTypingGame() {
+    if (this.playerTurn === 'O') {
+      this.roundStarted = true;
+    }
+
     this.setWordList();
     this.wordList[0].shown = true;
     this.toggleWordVisibility();
@@ -65,7 +71,7 @@ export class TypingGameComponent {
 
   setWordList() {
     this.resetValue();
-    this.words = this.wordsApiService.getWords('easy', 1);
+    this.words = this.wordsApiService.getWords('easy', this.wordCount);
     this.words.forEach((word) => {
       this.wordList.push({
         word: word,
@@ -74,6 +80,17 @@ export class TypingGameComponent {
         position: this.randomPosition(),
       });
     });
+  }
+
+  setWordCount(event: any) {
+    this.wordCount = +event.target.value;
+    if (this.wordCount < 10) {
+      this.wordCount = 10;
+    }
+
+    if (this.wordCount > 100) {
+      this.wordCount = 100;
+    }
   }
 
   toggleWordVisibility() {
@@ -154,6 +171,8 @@ export class TypingGameComponent {
       this.disableResetButton = false;
       this.playerOTime = 0;
       this.playerXTime = 0;
+      this.wordCount = 10;
+      this.roundStarted = false;
     }
   }
 

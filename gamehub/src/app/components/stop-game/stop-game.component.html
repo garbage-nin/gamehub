@@ -1,0 +1,123 @@
+<mat-card class="example-card">
+  <mat-card-header class="!p-0">
+    <mat-toolbar
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      class="justify-between items-center"
+    >
+      <div>Memory Game</div>
+      <div>
+        <mat-icon class="cursor-pointer" (click)="close.emit(true)"
+          >close</mat-icon
+        >
+      </div>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="flex flex-row justify-between py-4">
+      <div class="ml-5 flex flex-col">
+        <div>
+          <span class="primary-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-O:</span>
+          <span>{{ playerOScore }}</span>
+        </div>
+        <div>
+          <span>Current position: {{ playerOPosition.toFixed(2) }}</span>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="">Target: {{ arrowDownPos }}</div>
+      </div>
+      <div class="mr-5 flex flex-col">
+        <div>
+          <span class="accent-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-X:</span>
+          <span>{{ playerXScore }}</span>
+        </div>
+        <div>
+          <span>Current position: {{ playerXPosition.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="winner === ''" class="py-2 text-center">
+      <span
+        class="px-2 mr-1"
+        [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
+      ></span>
+      Player {{ playerTurn }} Turn!!!
+    </div>
+    <div *ngIf="winner != ''" class="py-1 text-center">{{ winner }}</div>
+    <div class="p-2 h-48 flex items-center">
+      <div class="w-full flex flex-col">
+        <div
+          class="h-5 w-full horizontal-bar"
+          [ngClass]="playerTurn === 'O' ? 'primary-bg' : 'accent-bg'"
+        ></div>
+        <div #iconContainer class="relative w-full flex flex-col">
+          <mat-icon
+            class="!text-3xl arrow-down relative"
+            [ngStyle]="arrowDownStyle"
+            >arrow_drop_down</mat-icon
+          >
+          <mat-icon
+            #arrowUpIcon
+            class="!text-3xl arrow-up relative"
+            [ngClass]="arrowUpStyle"
+            >arrow_drop_up</mat-icon
+          >
+        </div>
+      </div>
+    </div>
+    <div class="text-center py-2">Game difficulty:</div>
+    <div class="flex justify-center gap-1 py-1">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="startGame('easy-mode')"
+        class="!rounded-lg !text-white"
+        [disabled]="difficulty !== '' && difficulty !== 'easy-mode'"
+      >
+        Easy
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="!rounded-lg !text-white"
+        (click)="startGame('medium-mode')"
+        [disabled]="difficulty !== '' && difficulty !== 'medium-mode'"
+      >
+        Medium
+      </button>
+
+      <button
+        mat-raised-button
+        color="warn"
+        class="!rounded-lg !text-white"
+        (click)="startGame('hard-mode')"
+        [disabled]="difficulty !== '' && difficulty !== 'hard-mode'"
+      >
+        Hard
+      </button>
+    </div>
+    <div class="text-center py-2">
+      <button
+        mat-raised-button
+        [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+        class="w-2/4 !rounded-lg"
+        (click)="stopArrow()"
+        [disabled]="!roundStarted"
+      >
+        Stop
+      </button>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="!justify-end">
+    <button
+      mat-raised-button
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      (click)="resetGame()"
+    >
+      Reset
+    </button>
+  </mat-card-actions>
+</mat-card>
