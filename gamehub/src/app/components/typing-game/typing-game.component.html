@@ -60,6 +60,18 @@
       </ng-container>
     </div>
     <div class="text-center py-2">
+      <div class="py-2">
+        <label class="mr-1">Words to display?(min:10 ~ max:100): </label>
+        <input
+          type="number"
+          class="p-2 border-2 !text-black w-1/12"
+          min="10"
+          max="100"
+          (change)="setWordCount($event)"
+          [(ngModel)]="wordCount"
+          [disabled]="roundStarted"
+        />
+      </div>
       <button
         mat-raised-button
         [color]="playerTurn === 'X' ? 'primary' : 'accent'"
