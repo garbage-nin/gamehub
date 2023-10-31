@@ -1,0 +1,59 @@
+<mat-card class="example-card">
+  <mat-card-header class="!p-0">
+    <mat-toolbar
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+      class="justify-between items-center"
+    >
+      <div>Memory Game</div>
+      <div>
+        <mat-icon class="cursor-pointer" (click)="close.emit(true)"
+          >close</mat-icon
+        >
+      </div>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="flex flex-row justify-between py-4">
+      <div class="ml-5 flex flex-col">
+        <div>
+          <span class="primary-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-O:</span>
+          <span>{{ playerOScore }}</span>
+        </div>
+      </div>
+      <div class="mr-5 flex flex-col">
+        <div>
+          <span class="accent-bg px-2 mr-1"></span>
+          <span class="fond-bold mr-1">Player-X:</span>
+          <span>{{ playerXScore }}</span>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="p-2 h-96 bg-blue-200 border-2 !text-black relative">
+      <ng-container *ngFor="let target of targetList; let i = index">
+        <div
+          class="cursor-pointer"
+          [ngStyle]="target.style"
+          [ngClass]="{
+            'primary-bg': playerTurn === 'O',
+            'accent-bg': playerTurn === 'X',
+            'fade-in-animation': target.shown,
+            'hide-target': !target.shown
+          }"
+          (click)="targetClicked(target)"
+        >
+          {{ target.points }}
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="!justify-end">
+    <button
+      mat-raised-button
+      [color]="playerTurn === 'X' ? 'primary' : 'accent'"
+    >
+      Reset
+    </button>
+  </mat-card-actions>
+</mat-card>
