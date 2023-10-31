@@ -33,7 +33,7 @@
     <div class="p-2 h-96 bg-blue-200 border-2 !text-black relative">
       <ng-container *ngFor="let target of targetList; let i = index">
         <div
-          class="cursor-pointer"
+          class="cursor-pointer text-xs"
           [ngStyle]="target.style"
           [ngClass]="{
             'primary-bg': playerTurn === 'O',
