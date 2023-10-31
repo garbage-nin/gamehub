@@ -8,6 +8,7 @@ import { TictacComponent } from '../tictac/tictac.component';
 import { MemoryGameComponent } from '../memory-game/memory-game.component';
 import { TypingGameComponent } from '../typing-game/typing-game.component';
 import { StopGameComponent } from '../stop-game/stop-game.component';
+import { ShootingGameComponent } from '../shooting-game/shooting-game.component';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
     MemoryGameComponent,
     TypingGameComponent,
     StopGameComponent,
+    ShootingGameComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,18 @@
+.fade-in-animation {
+  animation: fade-out 3s forwards;
+  opacity: 1;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.hide-target {
+  visibility: hidden !important;
+}
