@@ -21,6 +21,10 @@
           <span>{{ playerOScore }}</span>
         </div>
       </div>
+      <div class="flex items-end flex-col">
+        <span>Target Left: {{ targetCounter }}</span>
+        <span>Target Clicked: {{ targetClickedCounter }}</span>
+      </div>
       <div class="mr-5 flex flex-col">
         <div>
           <span class="accent-bg px-2 mr-1"></span>
@@ -46,6 +50,37 @@
           {{ target.points }}
         </div>
       </ng-container>
+    </div>
+    <div class="text-center py-2">Game difficulty</div>
+    <div class="flex justify-center gap-1 py-1">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="startGame('easy-mode')"
+        class="!rounded-lg !text-white"
+        [disabled]="difficulty !== '' && difficulty !== 'easy-mode'"
+      >
+        Easy
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="!rounded-lg !text-white"
+        (click)="startGame('medium-mode')"
+        [disabled]="difficulty !== '' && difficulty !== 'medium-mode'"
+      >
+        Medium
+      </button>
+
+      <button
+        mat-raised-button
+        color="warn"
+        class="!rounded-lg !text-white"
+        (click)="startGame('hard-mode')"
+        [disabled]="difficulty !== '' && difficulty !== 'hard-mode'"
+      >
+        Hard
+      </button>
     </div>
   </mat-card-content>
   <mat-card-actions class="!justify-end">
