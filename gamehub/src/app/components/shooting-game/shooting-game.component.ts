@@ -18,6 +18,8 @@ export class ShootingGameComponent {
   @Output() close = new EventEmitter<boolean>();
   playerXScore: number = 0;
   playerOScore: number = 0;
+  currPlayerOScore: number = 0;
+  currPlayerXScore: number = 0;
   playerTurn: string = 'O';
   winner: string = '';
   intervalId: any;
@@ -46,12 +48,18 @@ export class ShootingGameComponent {
   constructor() {}
 
   startGame(difficulty: string) {
+    if (this.targetList.length > 0) {
+      return;
+    }
+    this.winner = '';
     this.difficulty = difficulty;
     this.targetList = [];
     this.targetIndex = -1;
     this.targetCounter = 0;
     this.targetClickedCounter = 0;
-    this.initializeGame();
+    setTimeout(() => {
+      this.initializeGame();
+    }, 1000);
   }
 
   initializeGame(): void {
@@ -84,7 +92,6 @@ export class ShootingGameComponent {
 
     this.targetList.sort(() => Math.random() - 0.5);
     this.targetCounter = this.targetList.length;
-    console.log(this.targetList.length);
     this.toggleWordVisibility();
   }
 
@@ -98,7 +105,15 @@ export class ShootingGameComponent {
       this.targetCounter--;
       if (this.targetIndex + 1 === this.targetList.length) {
         clearInterval(this.intervalId);
-        this.playerTurn = 'X' === this.playerTurn ? 'O' : 'X';
+
+        setTimeout(() => {
+          if (this.playerTurn === 'X') {
+            this.setWinner();
+          }
+          this.playerTurn = 'X' === this.playerTurn ? 'O' : 'X';
+          this.targetList = [];
+          this.targetClickedCounter = 0;
+        }, 3000);
       }
     }, 700);
   }
@@ -108,9 +123,25 @@ export class ShootingGameComponent {
     target.shown = false;
     this.targetClickedCounter++;
     if (this.playerTurn === 'O') {
-      this.playerOScore += target.points;
+      this.currPlayerOScore += target.points;
     } else {
-      this.playerXScore += target.points;
+      this.currPlayerXScore += target.points;
     }
+  }
+
+  setWinner() {
+    if (this.currPlayerXScore > this.currPlayerOScore) {
+      this.winner = `Winner of this round is Player X with a score of ${this.currPlayerXScore}`;
+      this.playerXScore++;
+    } else if (this.currPlayerXScore < this.currPlayerOScore) {
+      this.winner = `Winner of this round is Player O with a score of ${this.currPlayerOScore}`;
+      this.playerOScore++;
+    } else {
+      this.winner = `It's a tie! Both players scored ${this.currPlayerXScore}`;
+    }
+    this.currPlayerOScore = 0;
+    this.currPlayerXScore = 0;
+    this.targetList = [];
+    this.difficulty = '';
   }
 }
