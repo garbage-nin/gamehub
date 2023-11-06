@@ -4,27 +4,25 @@
       mat-icon-button
       class="example-icon"
       aria-label="Example icon-button with menu icon"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
+    ></button>
+    <span>Gamehub</span>
   </div>
   <div class="flex items-center">
-    <button
-      mat-icon-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-      (click)="openSideNavToggle()"
-    >
-      <mat-icon>favorite</mat-icon>
-    </button>
     <button
       mat-icon-button
       class="example-icon"
       aria-label="Example icon-button with share icon"
       (click)="lightThemeToggle()"
     >
-      <mat-icon>share</mat-icon>
+      <mat-icon>{{ themeIcon }}</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="openSideNavToggle()"
+    >
+      <mat-icon>menu</mat-icon>
     </button>
   </div>
 </mat-toolbar>

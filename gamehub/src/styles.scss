@@ -12,9 +12,13 @@ body {
 }
 
 .primary-bg {
-  background-color: #e725e7;
+  background-color: #e725e7 !important;
 }
 
 .accent-bg {
   background-color: #09a7b3;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-label-text-color: #fff !important;
 }
