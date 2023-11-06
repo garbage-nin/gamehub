@@ -43,6 +43,8 @@ export class StopGameComponent implements AfterViewInit {
     this.difficulty = difficulty;
     if (this.playerTurn === 'O') {
       this.winner = '';
+      this.playerOPosition = 0;
+      this.playerXPosition = 0;
       this.arrowDownPos = Math.floor(Math.random() * 96);
       this.arrowUpElement.style.animation = 'none';
     } else {
@@ -86,12 +88,12 @@ export class StopGameComponent implements AfterViewInit {
     let oDiffPos = Math.abs(this.arrowDownPos - this.playerOPosition);
 
     if (xDiffPos < oDiffPos) {
-      this.winner = `Winner of this round is Player X with a shortter distance of ${xDiffPos.toFixed(
+      this.winner = `Winner of this round is Player X with a shorter distance of ${xDiffPos.toFixed(
         2
       )} from the target`;
       this.playerXScore++;
     } else {
-      this.winner = `Winner of this round is Player O with a shortter distance of ${oDiffPos.toFixed(
+      this.winner = `Winner of this round is Player O with a shorter distance of ${oDiffPos.toFixed(
         2
       )} from the target`;
       this.playerOScore++;

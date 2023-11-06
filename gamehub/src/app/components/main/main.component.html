@@ -19,13 +19,47 @@
 
   <mat-sidenav-content>
     <div class="flex flex-wrap p-5">
-      <div class="w-1/5"></div>
+      <div class="w-1/5 flex flex-col items-center">
+        <span class="font-bold text-2xl pb-2">Game List</span>
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Color selection"
+        >
+          <mat-chip-option
+            *ngFor="let game of gameList"
+            class="!my-2"
+            color="primary"
+            (click)="selectGame(game.name)"
+            [ngClass]="{ 'primary-bg': gameSelected !== game.name }"
+          >
+            <div class="flex items-center">
+              <mat-icon class="mr-5">{{ game.icon }}</mat-icon>
+              {{ game.name }}
+            </div>
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
       <div class="w-3/5 flex justify-center">
-        <!-- <app-tictac class="w-4/6"></app-tictac> -->
-        <!-- <app-memory-game class="w-5/6"></app-memory-game> -->
-        <!-- <app-typing-game class="w-5/6"></app-typing-game> -->
-        <!-- <app-stop-game class="w-5/6"></app-stop-game> -->
-        <app-shooting-game class="w-5/6"></app-shooting-game>
+        <app-tictac
+          *ngIf="gameSelected === 'tic-tac-toe'"
+          class="w-4/6"
+        ></app-tictac>
+        <app-memory-game
+          *ngIf="gameSelected === 'memory-game'"
+          class="w-5/6"
+        ></app-memory-game>
+        <app-typing-game
+          *ngIf="gameSelected === 'typing-game'"
+          class="w-5/6"
+        ></app-typing-game>
+        <app-stop-game
+          *ngIf="gameSelected === 'stop-game'"
+          class="w-5/6"
+        ></app-stop-game>
+        <app-shooting-game
+          *ngIf="gameSelected === 'shooting-game'"
+          class="w-5/6"
+        ></app-shooting-game>
       </div>
       <div class="w-1/5"></div>
     </div>
