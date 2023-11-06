@@ -10,10 +10,10 @@ export class NavigationComponent {
   @Output() openSideNav = new EventEmitter<boolean>();
   theme: boolean = false;
   opened: boolean = false;
-  themeIcon = 'light_mode';
+  themeIcon = 'dark_mode';
   lightThemeToggle() {
-    this.theme = !this.theme;
     this.themeIcon = this.theme ? 'dark_mode' : 'light_mode';
+    this.theme = !this.theme;
     this.lightTheme.emit(this.theme);
   }
 

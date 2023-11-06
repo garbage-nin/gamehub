@@ -1,3 +1,27 @@
 .mat-mdc-chip-set {
   max-width: 200px;
 }
+
+.background-image {
+  background-image: url("../../../assets/images/background.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.background-image-alt {
+  background-image: url("../../../assets/images/background-alt.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

@@ -14,11 +14,16 @@
     position="end"
     autoFocus="false"
   >
-    Sidenav content
+    <div class="flex flex-col py-5 font-extrabold">Coming Soon...</div>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div class="flex flex-wrap p-5">
+    <div
+      class="flex flex-wrap p-5 min-h-screen"
+      [ngClass]="
+        lightTheme === false ? 'background-image' : 'background-image-alt'
+      "
+    >
       <div class="w-1/5 flex flex-col items-center">
         <span class="font-bold text-2xl pb-2">Game List</span>
         <mat-chip-listbox
@@ -63,5 +68,13 @@
       </div>
       <div class="w-1/5"></div>
     </div>
+    <footer class="absolute bottom-0 w-full text-white py-4">
+      <div class="container mx-auto flex justify-center items-center space-x-6">
+        <div class="text-sm">&copy; Garbage Ninja. All rights reserved.</div>
+        <i class="fa fa-github !text-2xl"></i>
+        <i class="fa fa-twitter !text-2xl"></i>
+        <i class="fa fa-facebook !text-2xl"></i>
+      </div>
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
