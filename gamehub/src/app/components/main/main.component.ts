@@ -20,4 +20,8 @@ export class MainComponent {
   selectGame(game: string) {
     this.gameSelected = game === this.gameSelected ? '' : game;
   }
+
+  closeGame(event: any) {
+    this.gameSelected = '';
+  }
 }

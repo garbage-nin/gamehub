@@ -18,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatToolbarModule,
     MatCardModule,
     MatChipsModule,
+    MatTooltipModule,
     FormsModule,
   ],
 })

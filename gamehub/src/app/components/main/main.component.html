@@ -4,7 +4,7 @@
 ></app-navigation>
 <mat-sidenav-container
   [ngClass]="{ 'theme-alternate': lightTheme }"
-  class="h-full overflow-y-hidden"
+  class="main-container overflow-y-hidden"
 >
   <mat-sidenav
     #sidenav
@@ -19,7 +19,7 @@
 
   <mat-sidenav-content>
     <div
-      class="flex flex-wrap p-5 min-h-screen"
+      class="flex flex-wrap p-5"
       [ngClass]="
         lightTheme === false ? 'background-image' : 'background-image-alt'
       "
@@ -36,6 +36,7 @@
             color="primary"
             (click)="selectGame(game.name)"
             [ngClass]="{ 'primary-bg': gameSelected !== game.name }"
+            [selected]="gameSelected === game.name"
           >
             <div class="flex items-center">
               <mat-icon class="mr-5">{{ game.icon }}</mat-icon>
@@ -44,26 +45,31 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
-      <div class="w-3/5 flex justify-center">
+      <div class="w-3/5 flex justify-center pt-5">
         <app-tictac
           *ngIf="gameSelected === 'tic-tac-toe'"
           class="w-4/6"
+          (close)="closeGame($event)"
         ></app-tictac>
         <app-memory-game
           *ngIf="gameSelected === 'memory-game'"
           class="w-5/6"
+          (close)="closeGame($event)"
         ></app-memory-game>
         <app-typing-game
           *ngIf="gameSelected === 'typing-game'"
           class="w-5/6"
+          (close)="closeGame($event)"
         ></app-typing-game>
         <app-stop-game
           *ngIf="gameSelected === 'stop-game'"
           class="w-5/6"
+          (close)="closeGame($event)"
         ></app-stop-game>
         <app-shooting-game
           *ngIf="gameSelected === 'shooting-game'"
           class="w-5/6"
+          (close)="closeGame($event)"
         ></app-shooting-game>
       </div>
       <div class="w-1/5"></div>
