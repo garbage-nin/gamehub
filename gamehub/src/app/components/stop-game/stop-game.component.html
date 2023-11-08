@@ -4,8 +4,15 @@
       [color]="playerTurn === 'X' ? 'primary' : 'accent'"
       class="justify-between items-center"
     >
-      <div>Memory Game</div>
+      <div>Stop Game</div>
       <div>
+        <mat-icon
+          class="mr-2"
+          matTooltip="Stop is a two-player game where players take turns attempting to stop an arrow closest to the target. The game offers three difficulty levels: easy, medium, and hard, with Player 1 choosing the level.
+
+        The objective of the game is simple: try to stop the arrow as close as possible to the target. The player who manages to get their arrow closest to the target wins the round."
+          >help</mat-icon
+        >
         <mat-icon class="cursor-pointer" (click)="close.emit(true)"
           >close</mat-icon
         >
